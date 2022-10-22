@@ -1,0 +1,150 @@
+/*** Theme ***/
+:root {
+    --font-familiy: 'Roboto', sans-serif;
+    --primary: #8e44ad;
+    --dark:#2c3e50;
+    --backgroud-light:#ecf0f1;
+    --text-color:#444;
+    --text-color-light:#fff;
+    --box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    --border: 1px solid #eee;
+    --danger: #e74c3c;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-familiy);
+}
+body, html{
+    background-color: var(--backgroud-light);
+    font-size: 10px;
+}
+ul{
+    list-style: none;
+}
+h1{
+    margin-bottom: 1rem;
+}
+
+/* Container */
+.container{
+    font-size: 1.6rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Text */
+.text-danger{
+    color: var(--danger);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+/* Buttons */
+.btn{
+    background: #fff;
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    border: 0;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 0 5px;
+    box-shadow: var(--box-shadow);
+}
+.btn-primary{
+    background: var(--primary);
+    color: var(--text-color-light);
+}
+.btn-danger{
+    background-color: var(--danger);
+    color: var(--text-color-light);
+}
+.btn-small{
+    padding: 5px 10px;
+}
+.low-opacity{
+    opacity: 0.5;
+}
+
+/* Header */
+header{
+    background-color: var(--primary);
+    padding: 1.5rem;
+    box-shadow:var(--box-shadow);
+}
+.logo{
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--text-color-light);
+}
+
+/* Footer */
+footer{
+    background-color: var(--dark);
+    display: flex;
+    flex-direction: row-reverse;
+    color: var(--text-color-light);
+    padding: 1.5rem;
+    font-size: 1.2rem;
+}
+
+/* Content */
+.content{
+    flex:1; /* Permet a content de prendre toute l'espace dispobible === fill */ 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    color: var(--text-color);
+}
+
+/* Todo */
+.todo-container{
+    padding: 1.5rem;
+    background-color: #fff;
+    border: var(--border);
+    border-radius: 3px;
+    min-width: 60rem;
+    min-height: 40rem;
+}
+.todo-container h1{
+    text-align: center;
+}
+
+/* Form */
+.todo-form{
+    display: flex;
+    align-items: center;
+    flex-direction: row nowrap;
+    margin-bottom: 10px;
+}
+.todo-form input{
+    flex: 1;
+    margin-right: 0.5rem;
+    border: var(--border);
+    border-radius: 3px;
+    padding: 10px 15px;
+}
+
+/* Todo list */
+.todo-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 1.5rem ;
+}
+.todo-item:nth-child(odd){
+    background-color: var(--backgroud-light);
+}
+.todo-name{
+    flex: 1;
+    margin-right: 0.5rem;
+}
