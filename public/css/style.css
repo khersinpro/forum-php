@@ -141,3 +141,13 @@ footer{
 .p-10{
     padding: 10px;
 }
+.box {
+    background: var(--backgroud-light);
+    box-shadow: var(--box-shadow);
+}
+.overflow{
+    overflow: hidden;
+}
+.small{
+    font-size: 1.3rem;
+}

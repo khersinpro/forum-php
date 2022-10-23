@@ -12,11 +12,26 @@ $errors = [
     'content' => ''
 ];
 $articles = [];
+$category = "";
+$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$id = $_GET['id'] ?? '';
+
+if(file_exists($filename)) {
+    $articles = json_decode(file_get_contents($filename), true) ?? []; 
+}
+
+if($id){
+    $articleIndex = array_search($id, array_column($articles, 'id'));
+    $article = $articles[$articleIndex];
+    $title = $article['title'];
+    $image = $article['image'];
+    $category = $article['category'];
+    $content = $article['content'];
+}
+
+
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')  {
-    if(file_exists($filename)) {
-        $articles = json_decode(file_get_contents($filename, true)) ?? []; 
-    }
 
     $_POST = filter_input_array(INPUT_POST, [
         'title' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -57,13 +72,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
 
     // Vérifie si le tableau d'erreur est vide grace a empty()
     if(empty(array_filter($errors, fn($e) => $e !== ''))) {
-        $articles = [...$articles, [
-            'title' => $title,
-            'image' => $image,
-            'category' => $category,
-            'content' => $content,
-            'id' => time()
-        ]];
+        if($id) {
+            $articles[$articleIndex]["title"] = $title;
+            $articles[$articleIndex]["image"] = $image;
+            $articles[$articleIndex]["category"] = $category;
+            $articles[$articleIndex]["content"] = $content;
+        } else {
+            $articles = [...$articles, [
+                'title' => $title,
+                'image' => $image,
+                'category' => $category,
+                'content' => $content,
+                'id' => time()
+            ]];
+        }
         file_put_contents($filename, json_encode($articles));
         header('Location: /');
     }
@@ -75,8 +97,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
 
 <head>
     <?php include_once './includes/head.php' ?>
-    <link rel="stylesheet" href="./public/css/add-article.css">
-    <title>Créer un article</title>
+    <link rel="stylesheet" href="./public/css/form-article.css">
+    <title><?= $id ? "Modifier" : "Écrire" ?> un article</title>
 </head>
 
 <body>
@@ -84,8 +106,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
         <?php require_once './includes/header.php' ?>
         <div class="content">
             <div class="block p-20 form-container">
-                <h1>Écrire un article</h1>
-                <form action="/add-article.php" method="POST">
+                <h1><?= $id ? "Modifier" : "Écrire" ?> un article</h1>
+                <form action="/form-article.php<?= $id? "?id=$id" : "" ?>" method="POST">
                     <div class="form-control">
                         <label for="title">Titre</label>
                         <input type="text" name="title" id="title" value="<?= $title ?? "" ?>">
@@ -107,9 +129,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
                     <div class="form-control">
                         <label for="category">Catégorie</label>
                         <select name="category" id="category">
-                            <option value="technology">Technologie</option>
-                            <option value="nature">Nature</option>
-                            <option value="politic">Politique</option>
+                            <option <?= !$category|| $category === "technologie" ? "selected" : "" ?> value="technologie">Technologie</option>
+                            <option <?= $category === "nature" ? "selected" : "" ?> value="nature">Nature</option>
+                            <option <?= $category === "politique" ? "selected" : "" ?> value="politique">Politique</option>
                         </select>
                         <?php if($errors['category']) : ?>
                             <p class="text-danger">
@@ -128,7 +150,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
                     </div>
                     <div class="form-action">
                         <a href="/" type="button" class="btn btn-secondary">Annuler</a>
-                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                        <button type="submit" class="btn btn-primary"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
                     </div>
                 </form>
             </div>

@@ -1,0 +1,47 @@
+.articles-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+.article {
+    flex: 30%;
+    margin: 1rem;
+    min-height: 41rem;
+    cursor: pointer;
+    cursor: pointer;
+}
+.image-container {
+    height: 300px;
+    background-size: cover;
+    transition: transform 1s;
+}
+.article:hover .image-container {
+    transform: scale(1.2);
+}
+.article h3 {
+    font-size: 1.7rem;
+    padding: 1rem 1.5rem;
+}
+.newsfeed-content h2{
+    font-size: 1.9rem;
+    padding: 0.5rem 1.5rem;
+}
+.newsfeed-container{
+    display: flex;
+}
+.category-container{
+    flex: 200px;
+}
+.category-container li{
+    margin: 1rem 0;
+    transition: color 0.2s;
+}
+.category-container li:hover{
+    color:var(--primary);
+    cursor: pointer;
+}
+.cat-active{
+    color:var(--primary);
+    font-weight: 700;
+}
