@@ -1,10 +1,12 @@
 <?php
+// Messages d'erreur a afficher
 const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
 const ERROR_TOO_SHORT = 'Le titre est trop court';
 const ERROR_CONTENT_TOO_SHORT = 'L\'article est trop court';
 const ERROR_IMAGE_URL = 'L\'image doit être une url valide';
 
 $filename = __DIR__.'/data/articles.json';
+// Tableau de gestion d'erreur
 $errors = [
     'title' => '',
     'image' => '',
@@ -13,6 +15,8 @@ $errors = [
 ];
 $articles = [];
 $category = "";
+
+// Sécurisation de l'url et récupération de l'id de larticle si c'est une modification d'article
 $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $id = $_GET['id'] ?? '';
 
@@ -20,17 +24,20 @@ if(file_exists($filename)) {
     $articles = json_decode(file_get_contents($filename), true) ?? []; 
 }
 
+// Si la requete cocerne une modification d'article
 if($id){
+    // Récupération de l'index de l'article
     $articleIndex = array_search($id, array_column($articles, 'id'));
+    // Récupération des infos de l'article grace a son index ($articleIndex)
     $article = $articles[$articleIndex];
+    // Stockage des données de l'article dans les variables destinées a l'affichage das les inputs 
     $title = $article['title'];
     $image = $article['image'];
     $category = $article['category'];
     $content = $article['content'];
 }
 
-
-
+// Si la request method est un post , on applique la logique suivante :
 if($_SERVER['REQUEST_METHOD'] === 'POST')  {
 
     $_POST = filter_input_array(INPUT_POST, [
@@ -48,6 +55,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
     $category = $_POST['category'] ?? '';
     $content = $_POST['content'] ?? '';
 
+    // Gestion d'erreurs pour tout le formulaire
     if(!$title) {
         $errors["title"] = ERROR_REQUIRED;
     } else if(mb_strlen($title) < 5) {
@@ -72,12 +80,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
 
     // Vérifie si le tableau d'erreur est vide grace a empty()
     if(empty(array_filter($errors, fn($e) => $e !== ''))) {
-        if($id) {
+        if($id) { // Si il y a un $id en param , on modifie
             $articles[$articleIndex]["title"] = $title;
             $articles[$articleIndex]["image"] = $image;
             $articles[$articleIndex]["category"] = $category;
             $articles[$articleIndex]["content"] = $content;
-        } else {
+        } else { // Sinon on créer un article dans $articles
             $articles = [...$articles, [
                 'title' => $title,
                 'image' => $image,
@@ -86,6 +94,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')  {
                 'id' => time()
             ]];
         }
+        // Sauvegarde des articles puis redirection
         file_put_contents($filename, json_encode($articles));
         header('Location: /');
     }
