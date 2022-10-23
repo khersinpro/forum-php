@@ -1,7 +1,8 @@
 /*** Theme ***/
 :root {
     --font-familiy: 'Roboto', sans-serif;
-    --primary: #8e44ad;
+    --primary: #e74c3c;
+    --primary-dark: #c0392b;
     --dark:#2c3e50;
     --backgroud-light:#ecf0f1;
     --text-color:#444;
@@ -27,7 +28,10 @@ ul{
 h1{
     margin-bottom: 1rem;
 }
-
+a{
+    text-decoration: none;
+    color: inherit;
+}
 /* Container */
 .container{
     font-size: 1.6rem;
@@ -77,6 +81,21 @@ header{
     background-color: var(--primary);
     padding: 1.5rem;
     box-shadow:var(--box-shadow);
+    color: var(--text-color-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-menu li{
+    border-radius: 3px;
+    padding: 5px 15px ;
+    transition: background 0.2s;
+}
+.header-menu li.active{
+    background: var(--primary-dark);
+}
+.header-menu li:hover{
+    background: var(--primary-dark);
 }
 .logo{
     font-weight: 700;
@@ -96,55 +115,29 @@ footer{
 
 /* Content */
 .content{
+    max-width: 100rem;
+    width: 100%;
     flex:1; /* Permet a content de prendre toute l'espace dispobible === fill */ 
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    box-shadow: var(--box-shadow);
+    align-self: center;
     color: var(--text-color);
+    padding: 2rem 0;
 }
 
-/* Todo */
-.todo-container{
-    padding: 1.5rem;
+/* Block */
+.block{
+    border-radius: 3px;
+    border: var(--border);
     background-color: #fff;
-    border: var(--border);
-    border-radius: 3px;
-    min-width: 60rem;
-    min-height: 40rem;
-}
-.todo-container h1{
-    text-align: center;
+    box-shadow: var(--box-shadow);
 }
 
-/* Form */
-.todo-form{
-    display: flex;
-    align-items: center;
-    flex-direction: row nowrap;
-    margin-bottom: 10px;
+/* utils */
+.p-20{
+    padding: 20px;
 }
-.todo-form input{
-    flex: 1;
-    margin-right: 0.5rem;
-    border: var(--border);
-    border-radius: 3px;
-    padding: 10px 15px;
-}
-
-/* Todo list */
-.todo-item{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    padding: 0.3rem 1.5rem ;
-}
-.todo-item:nth-child(odd){
-    background-color: var(--backgroud-light);
-}
-.todo-name{
-    flex: 1;
-    margin-right: 0.5rem;
+.p-10{
+    padding: 10px;
 }
